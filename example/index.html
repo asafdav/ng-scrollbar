@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-sanitize.min.js"></script>
+  <script src="../dist/ng-scrollbar.js"></script>
+
+  <link rel="stylesheet" href="../dist/ng-scrollbar.min.css" >
+  <style>
+    .scrollme {
+      max-height: 200px;
+    }
+  </style>
+</head>
+<body>
+
+<div ng-app="myapp">
+  <div class="container" ng-controller="myctrl">
+
+    <div class="page-header">
+      <h1>ngScrollBar <small>example</small></h1>
+    </div>
+
+    <div class="well" >
+      <div class="scrollme" ng-scrollbar>
+        <h1>Scroll me down!</h1>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="https://github.com/asafdav/ng-scrollbar">Learn more</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var myapp = angular.module('myapp', ["ngSanitize", "ngScrollbar"]);
+
+  myapp.controller('myctrl', function ($scope) {
+  });
+</script>
+
+</body>
+</html>
