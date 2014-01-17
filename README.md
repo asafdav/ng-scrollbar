@@ -14,6 +14,7 @@ In your web page:
 ```html
 <script src="angular.js"></script>
 <script src="dist/ng-scrollbar.min.js"></script>
+<link rel="stylesheet" href="dist/ng-scrollbar.min.css" >
 ```
 
 ## Documentation
