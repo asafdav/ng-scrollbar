@@ -47,3 +47,7 @@ It's useful to use this option when the size or visibility of the container is d
   
 ## Examples
 See the example in the respository.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-scrollbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
