@@ -93,7 +93,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             thumbLine.css(draggerLineStyle);
             track.bind('click', trackClick);
             var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
-            transculdedContainer.bind(wheelEvent, wheelHandler);
+            transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
             thumb.bind('mousedown', function (event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
               win.bind('mouseup', function () {

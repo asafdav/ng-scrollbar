@@ -131,7 +131,8 @@ angular.module('ngScrollbar', []).
 
             // Handl mousewheel
             var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
-            transculdedContainer.bind(wheelEvent, wheelHandler);
+            transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
+
 
             // Drag the scroller
             thumb.bind('mousedown', function(event) {
