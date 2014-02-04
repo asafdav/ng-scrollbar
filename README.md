@@ -35,6 +35,7 @@ Tired of using jquery for a stupid scrollbar? well, this directive is just for y
 
 ## Rebuild the scrollbar 
 In case you need to rebuild the scorllbar, you may tell ng-scrollbar to rebuild it for you by broadcasting an event. 
+It's useful to use this option when the size or visibility of the container is dynamic and during the link phase the size can't be determined. 
   ```html
   <div class="scrollme" ng-scrollbar rebuild-on="rebuild:me" > .... </div>
   ```
@@ -46,3 +47,7 @@ In case you need to rebuild the scorllbar, you may tell ng-scrollbar to rebuild 
   
 ## Examples
 See the example in the respository.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-scrollbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
