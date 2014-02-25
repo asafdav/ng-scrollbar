@@ -142,6 +142,7 @@ angular.module('ngScrollbar', []).
                 event.stopPropagation();
               });
               win.bind('mousemove', dragHandler);
+              event.preventDefault();
             });
           } else {
             scope.showYScrollbar = false;
