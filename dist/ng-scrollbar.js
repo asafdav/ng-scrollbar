@@ -101,6 +101,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
                 event.stopPropagation();
               });
               win.bind('mousemove', dragHandler);
+              event.preventDefault();
             });
           } else {
             scope.showYScrollbar = false;
