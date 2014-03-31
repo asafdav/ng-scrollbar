@@ -21,8 +21,10 @@ describe('Module: ngScrollbar', function () {
 
   var templates = {
     'default': {
-      scope: {},
-      element: '<div my-directive></div>'
+      scope: {
+        helloWorld: 'hello world'
+      },
+      element: '<div my-directive>{{ helloWorld }}</div>'
     }
   };
 
