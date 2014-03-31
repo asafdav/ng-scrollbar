@@ -7,7 +7,9 @@ angular.module('ngScrollbar', []).
       replace: true,
       transclude: true,
       link: function(scope, element, attrs) {
-        var win, mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+
+        var win = angular.element($window);
 
         // Elements
         var dragger = {
@@ -99,7 +101,6 @@ angular.module('ngScrollbar', []).
         };
 
         var buildScrollbar = function () {
-          win = angular.element($window);
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -148,13 +149,35 @@ angular.module('ngScrollbar', []).
             scope.showYScrollbar = false;
           }
         };
+
+        var rebuildTimer;
+
+        var rebuild = function (e, data) {
+          /* jshint -W116 */
+          if (rebuildTimer != null) {
+            clearTimeout(rebuildTimer);
+          }
+          /* jshint +W116 */
+          var rollToBottom = !!data && !!data.rollToBottom;
+          rebuildTimer = setTimeout(function () {
+            page.height = null;
+            buildScrollbar(rollToBottom);
+            if (!scope.$$phase) {
+              scope.$digest();
+            }
+          }, 72);
+        };
+
         buildScrollbar();
 
         if (!!attrs.rebuildOn) {
-          scope.$on(attrs.rebuildOn, function() {
-            page.height = null;
-            buildScrollbar();
+          attrs.rebuildOn.split(' ').forEach(function (eventName) {
+            scope.$on(eventName, rebuild);
           });
+        }
+
+        if (attrs.hasOwnProperty('rebuildOnResize')) {
+          win.on('resize', rebuild);
         }
       },
       template: '<div>' +
