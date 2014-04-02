@@ -8,10 +8,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       replace: true,
       transclude: true,
       link: function (scope, element, attrs) {
-        var win, mainElm, transculdedContainer, tools, thumb, thumbLine, track;
-        // Elements
+        var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var win = angular.element($window);
         var dragger = { top: 0 }, page = { top: 0 };
-        // Styles
         var scrollboxStyle, draggerStyle, draggerLineStyle, pageStyle;
         var calcStyles = function () {
           scrollboxStyle = {
@@ -70,39 +69,31 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var dragHandler = function (event) {
           var newOffsetY = event.pageY - thumb[0].scrollTop - lastOffsetY;
           var newOffsetX = 0;
-          // TBD
           thumbDrag(event, newOffsetX, newOffsetY);
           redraw();
         };
         var buildScrollbar = function () {
-          win = angular.element($window);
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
           thumb = angular.element(angular.element(tools.children()[0]).children()[0]);
           thumbLine = angular.element(thumb.children()[0]);
           track = angular.element(angular.element(tools.children()[0]).children()[1]);
-          // Check if scroll bar is needed
           page.height = element[0].offsetHeight;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
           if (page.height < page.scrollHeight) {
             scope.showYScrollbar = true;
-            // Calculate the dragger height
             dragger.height = Math.round(page.height / page.scrollHeight * page.height);
             dragger.trackHeight = page.height;
-            // update the transcluded content style and clear the parent's
             calcStyles();
             element.css({ overflow: 'hidden' });
             mainElm.css(scrollboxStyle);
             transculdedContainer.css(pageStyle);
             thumb.css(draggerStyle);
             thumbLine.css(draggerLineStyle);
-            // Bind scroll bar events
             track.bind('click', trackClick);
-            // Handl mousewheel
             var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
             transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
-            // Drag the scroller
             thumb.bind('mousedown', function (event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
               win.bind('mouseup', function () {
@@ -116,12 +107,28 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.showYScrollbar = false;
           }
         };
+        var rebuildTimer;
+        var rebuild = function (e, data) {
+          if (rebuildTimer != null) {
+            clearTimeout(rebuildTimer);
+          }
+          var rollToBottom = !!data && !!data.rollToBottom;
+          rebuildTimer = setTimeout(function () {
+            page.height = null;
+            buildScrollbar(rollToBottom);
+            if (!scope.$$phase) {
+              scope.$digest();
+            }
+          }, 72);
+        };
         buildScrollbar();
         if (!!attrs.rebuildOn) {
-          scope.$on(attrs.rebuildOn, function () {
-            page.height = null;
-            buildScrollbar();
+          attrs.rebuildOn.split(' ').forEach(function (eventName) {
+            scope.$on(eventName, rebuild);
           });
+        }
+        if (attrs.hasOwnProperty('rebuildOnResize')) {
+          win.on('resize', rebuild);
         }
       },
       template: '<div>' + '<div class="ngsb-wrap">' + '<div class="ngsb-container" ng-transclude></div>' + '<div class="ngsb-scrollbar" style="position: absolute; display: block;" ng-show="showYScrollbar">' + '<div class="ngsb-thumb-container">' + '<div class="ngsb-thumb-pos" oncontextmenu="return false;">' + '<div class="ngsb-thumb" ></div>' + '</div>' + '<div class="ngsb-track"></div>' + '</div>' + '</div>' + '</div>' + '</div>'
