@@ -45,6 +45,10 @@ It's useful to use this option when the size or visibility of the container is d
   $scope.$broadcast('rebuild:me');
   ```  
   
+In case you need to rebuild the scrollbar on every window's resize, you may use "rebuild-on-resize" option. 
+  ```html
+  <div class="scrollme" ng-scrollbar rebuild-on-resize > .... </div>
+  ```
 ## Examples
 See the example in the respository.
 
