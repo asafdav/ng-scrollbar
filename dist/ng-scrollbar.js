@@ -9,6 +9,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       transclude: true,
       link: function (scope, element, attrs) {
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var flags = { bottom: attrs.hasOwnProperty('bottom') };
         var win = angular.element($window);
         var dragger = { top: 0 }, page = { top: 0 };
         var scrollboxStyle, draggerStyle, draggerLineStyle, pageStyle;
@@ -51,7 +52,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.stopPropagation();
         };
         var wheelHandler = function (event) {
-          var deltaY = event.wheelDeltaY !== undefined ? event.wheelDeltaY / 20 : event.wheelDelta !== undefined ? event.wheelDelta / 20 : -event.detail * 2;
+          var wheelDivider = 20;
+          var deltaY = event.wheelDeltaY !== undefined ? event.wheelDeltaY / wheelDivider : event.wheelDelta !== undefined ? event.wheelDelta / wheelDivider : -event.detail * (wheelDivider / 10);
           dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - deltaY));
           redraw();
           if (!!event.preventDefault) {
@@ -62,8 +64,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         };
         var lastOffsetY;
         var thumbDrag = function (event, offsetX, offsetY) {
-          var newTop = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
-          dragger.top = newTop;
+          dragger.top = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
           event.stopPropagation();
         };
         var dragHandler = function (event) {
@@ -72,7 +73,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           thumbDrag(event, newOffsetX, newOffsetY);
           redraw();
         };
-        var buildScrollbar = function () {
+        var buildScrollbar = function (rollToBottom) {
+          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+          rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -92,26 +95,38 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             thumb.css(draggerStyle);
             thumbLine.css(draggerLineStyle);
             track.bind('click', trackClick);
-            var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
             transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
-            thumb.bind('mousedown', function (event) {
+            thumb.on('mousedown', function (event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
-              win.bind('mouseup', function () {
-                win.unbind('mousemove', dragHandler);
+              win.on('mouseup', function () {
+                win.off('mousemove', dragHandler);
                 event.stopPropagation();
               });
-              win.bind('mousemove', dragHandler);
+              win.on('mousemove', dragHandler);
               event.preventDefault();
             });
+            if (rollToBottom) {
+              flags.bottom = false;
+              dragger.top = parseInt(page.height, 10) - parseInt(dragger.height, 10);
+            } else {
+              dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10)));
+            }
+            redraw();
           } else {
             scope.showYScrollbar = false;
+            thumb.off('mousedown');
+            transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
+            transculdedContainer.attr('style', 'position:relative;top:0');
+            mainElm.css({ height: '100%' });
           }
         };
         var rebuildTimer;
         var rebuild = function (e, data) {
+          /* jshint -W116 */
           if (rebuildTimer != null) {
             clearTimeout(rebuildTimer);
           }
+          /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
           rebuildTimer = setTimeout(function () {
             page.height = null;
