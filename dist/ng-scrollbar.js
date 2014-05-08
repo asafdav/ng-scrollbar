@@ -9,8 +9,11 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       transclude: true,
       link: function (scope, element, attrs) {
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var flags = { bottom: attrs.hasOwnProperty('bottom') };
         var win = angular.element($window);
+        // Elements
         var dragger = { top: 0 }, page = { top: 0 };
+        // Styles
         var scrollboxStyle, draggerStyle, draggerLineStyle, pageStyle;
         var calcStyles = function () {
           scrollboxStyle = {
@@ -69,6 +72,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var dragHandler = function (event) {
           var newOffsetY = event.pageY - thumb[0].scrollTop - lastOffsetY;
           var newOffsetX = 0;
+          // TBD
           thumbDrag(event, newOffsetX, newOffsetY);
           redraw();
         };
@@ -79,21 +83,27 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           thumb = angular.element(angular.element(tools.children()[0]).children()[0]);
           thumbLine = angular.element(thumb.children()[0]);
           track = angular.element(angular.element(tools.children()[0]).children()[1]);
+          // Check if scroll bar is needed
           page.height = element[0].offsetHeight;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
           if (page.height < page.scrollHeight) {
             scope.showYScrollbar = true;
+            // Calculate the dragger height
             dragger.height = Math.round(page.height / page.scrollHeight * page.height);
             dragger.trackHeight = page.height;
+            // update the transcluded content style and clear the parent's
             calcStyles();
             element.css({ overflow: 'hidden' });
             mainElm.css(scrollboxStyle);
             transculdedContainer.css(pageStyle);
             thumb.css(draggerStyle);
             thumbLine.css(draggerLineStyle);
+            // Bind scroll bar events
             track.bind('click', trackClick);
+            // Handl mousewheel
             var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
             transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
+            // Drag the scroller
             thumb.bind('mousedown', function (event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
               win.bind('mouseup', function () {
@@ -109,9 +119,11 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         };
         var rebuildTimer;
         var rebuild = function (e, data) {
+          /* jshint -W116 */
           if (rebuildTimer != null) {
             clearTimeout(rebuildTimer);
           }
+          /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
           rebuildTimer = setTimeout(function () {
             page.height = null;
