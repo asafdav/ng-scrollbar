@@ -103,14 +103,14 @@ angular.module('ngScrollbar', []).
           event.stopPropagation();
         };
 
-        var dragHandler = function (event) {
+        var dragHandler = function(event) {
           var newOffsetY = event.pageY - thumb[0].scrollTop - lastOffsetY;
           var newOffsetX = 0; // TBD
           thumbDrag(event, newOffsetX, newOffsetY);
           redraw();
         };
 
-        var buildScrollbar = function (rollToBottom) {
+        var buildScrollbar = function(rollToBottom) {
 
           var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
 
@@ -148,9 +148,9 @@ angular.module('ngScrollbar', []).
             transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
 
             // Drag the scroller
-            thumb.on('mousedown', function (event) {
+            thumb.on('mousedown', function(event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
-              win.on('mouseup', function () {
+              win.on('mouseup', function() {
                 win.off('mousemove', dragHandler);
                 event.stopPropagation();
               });
@@ -177,14 +177,14 @@ angular.module('ngScrollbar', []).
 
         var rebuildTimer;
 
-        var rebuild = function (e, data) {
+        var rebuild = function(e, data) {
           /* jshint -W116 */
           if (rebuildTimer != null) {
             clearTimeout(rebuildTimer);
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
-          rebuildTimer = setTimeout(function () {
+          rebuildTimer = setTimeout(function() {
             page.height = null;
             buildScrollbar(rollToBottom);
             if (!scope.$$phase) {
@@ -196,7 +196,7 @@ angular.module('ngScrollbar', []).
         buildScrollbar();
 
         if (!!attrs.rebuildOn) {
-          attrs.rebuildOn.split(' ').forEach(function (eventName) {
+          attrs.rebuildOn.split(' ').forEach(function(eventName) {
             scope.$on(eventName, rebuild);
           });
         }
