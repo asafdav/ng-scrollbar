@@ -8,7 +8,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       replace: true,
       transclude: true,
       link: function (scope, element, attrs) {
-        var win, mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var win = angular.element($window);
         var dragger = { top: 0 }, page = { top: 0 };
         var scrollboxStyle, draggerStyle, draggerLineStyle, pageStyle;
         var calcStyles = function () {
@@ -72,7 +73,6 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           redraw();
         };
         var buildScrollbar = function () {
-          win = angular.element($window);
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -107,12 +107,28 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.showYScrollbar = false;
           }
         };
+        var rebuildTimer;
+        var rebuild = function (e, data) {
+          if (rebuildTimer != null) {
+            clearTimeout(rebuildTimer);
+          }
+          var rollToBottom = !!data && !!data.rollToBottom;
+          rebuildTimer = setTimeout(function () {
+            page.height = null;
+            buildScrollbar(rollToBottom);
+            if (!scope.$$phase) {
+              scope.$digest();
+            }
+          }, 72);
+        };
         buildScrollbar();
         if (!!attrs.rebuildOn) {
-          scope.$on(attrs.rebuildOn, function () {
-            page.height = null;
-            buildScrollbar();
+          attrs.rebuildOn.split(' ').forEach(function (eventName) {
+            scope.$on(eventName, rebuild);
           });
+        }
+        if (attrs.hasOwnProperty('rebuildOnResize')) {
+          win.on('resize', rebuild);
         }
       },
       template: '<div>' + '<div class="ngsb-wrap">' + '<div class="ngsb-container" ng-transclude></div>' + '<div class="ngsb-scrollbar" style="position: absolute; display: block;" ng-show="showYScrollbar">' + '<div class="ngsb-thumb-container">' + '<div class="ngsb-thumb-pos" oncontextmenu="return false;">' + '<div class="ngsb-thumb" ></div>' + '</div>' + '<div class="ngsb-track"></div>' + '</div>' + '</div>' + '</div>' + '</div>'
