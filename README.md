@@ -11,17 +11,17 @@ Tired of using jquery for a stupid scrollbar? well, this directive is just for y
   you can download this by:
   * using bower and running `bower install ng-scrollbar`
   * Download the [production version][min] or the [development version][max].
-  
+
   [min]: https://raw.github.com/asafdav/ng-scrollbar/master/dist/angular-ng-scrollbar.min.js
   [max]: https://raw.github.com/asafdav/ng-scrollbar/master/dist/angular-ng-scrollbar.js
-  
+
   In your web page:
-  
+
   ```html
   <script src="angular.js"></script>
   <script src="dist/ng-scrollbar.min.js"></script>
   <link rel="stylesheet" href="dist/ng-scrollbar.min.css" >
-```
+  ```
 
 2. Set `ngScrollbar` as a dependency in your module
   ```javascript
@@ -39,12 +39,22 @@ It's useful to use this option when the size or visibility of the container is d
   ```html
   <div class="scrollme" ng-scrollbar rebuild-on="rebuild:me" > .... </div>
   ```
-  
+
   ```javascript
   // rebuild the scrollbar
   $scope.$broadcast('rebuild:me');
-  ```  
-  
+  ```
+
+In case you need to rebuild the scrollbar on every window's resize, you may use "rebuild-on-resize" option. 
+  ```html
+  <div class="scrollme" ng-scrollbar rebuild-on-resize > .... </div>
+  ```
+
+In case you need to stick content to bottom (chat or something) use "bottom" option.
+  ```html
+  <div class="scrollme" ng-scrollbar bottom > .... </div>
+  ```
+
 ## Examples
 See the example in the respository.
 
