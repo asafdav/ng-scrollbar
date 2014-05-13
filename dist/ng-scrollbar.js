@@ -122,11 +122,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         };
         var rebuildTimer;
         var rebuild = function (e, data) {
-          /* jshint -W116 */
           if (rebuildTimer != null) {
             clearTimeout(rebuildTimer);
           }
-          /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
           rebuildTimer = setTimeout(function () {
             page.height = null;

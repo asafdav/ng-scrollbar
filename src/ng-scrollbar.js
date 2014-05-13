@@ -184,7 +184,7 @@ angular.module('ngScrollbar', []).
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
-          rebuildTimer = setTimeout(function() {
+          rebuildTimer = setTimeout(function () {
             page.height = null;
             buildScrollbar(rollToBottom);
             if (!scope.$$phase) {
@@ -196,7 +196,7 @@ angular.module('ngScrollbar', []).
         buildScrollbar();
 
         if (!!attrs.rebuildOn) {
-          attrs.rebuildOn.split(' ').forEach(function(eventName) {
+          attrs.rebuildOn.split(' ').forEach(function (eventName) {
             scope.$on(eventName, rebuild);
           });
         }
