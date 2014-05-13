@@ -101,6 +101,10 @@ angular.module('ngScrollbar', []).
         };
 
         var buildScrollbar = function () {
+
+          // Getting top position of a parent element to place scroll correctly
+          var parentOffsetTop = element[0].parentElement.offsetTop;
+
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -110,7 +114,7 @@ angular.module('ngScrollbar', []).
 
 
           // Check if scroll bar is needed
-          page.height = element[0].offsetHeight ;
+          page.height = element[0].offsetHeight - parentOffsetTop;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
           if (page.height < page.scrollHeight) {
             scope.showYScrollbar = true;
