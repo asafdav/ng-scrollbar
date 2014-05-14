@@ -74,6 +74,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           redraw();
         };
         var buildScrollbar = function (rollToBottom) {
+          var parentOffsetTop = element[0].parentElement.offsetTop;
           var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
@@ -82,7 +83,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           thumb = angular.element(angular.element(tools.children()[0]).children()[0]);
           thumbLine = angular.element(thumb.children()[0]);
           track = angular.element(angular.element(tools.children()[0]).children()[1]);
-          page.height = element[0].offsetHeight;
+          page.height = element[0].offsetHeight - parentOffsetTop;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
           if (page.height < page.scrollHeight) {
             scope.showYScrollbar = true;

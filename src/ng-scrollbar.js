@@ -112,6 +112,9 @@ angular.module('ngScrollbar', []).
 
         var buildScrollbar = function(rollToBottom) {
 
+          // Getting top position of a parent element to place scroll correctly
+          var parentOffsetTop = element[0].parentElement.offsetTop;
+
           var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
 
           rollToBottom = flags.bottom || rollToBottom;
@@ -123,7 +126,7 @@ angular.module('ngScrollbar', []).
           track = angular.element(angular.element(tools.children()[0]).children()[1]);
 
           // Check if scroll bar is needed
-          page.height = element[0].offsetHeight ;
+          page.height = element[0].offsetHeight - parentOffsetTop;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
 
           if (page.height < page.scrollHeight) {
