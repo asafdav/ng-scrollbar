@@ -21,9 +21,9 @@
     <div class="page-header">
       <h1>ngScrollBar <small>example</small></h1>
     </div>
-
+    Bar is shown: {{barShown}}
     <div class="well" >
-      <div class="scrollme" ng-scrollbar>
+      <div class="scrollme" ng-scrollbar is-bar-shown="barShown">
         <h1>Scroll me down!</h1>
         <p>...</p>
         <p>...</p>
@@ -38,9 +38,17 @@
 </div>
 
 <script>
-  var myapp = angular.module('myapp', ["ngSanitize", "ngScrollbar"]);
+  var myapp = angular.module('myapp', ['ngSanitize', 'ngScrollbar']);
 
   myapp.controller('myctrl', function ($scope) {
+    $scope.$on('scrollbar.show', function(){
+      console.log('Scrollbar show');
+    });
+
+    $scope.$on('scrollbar.hide', function(){
+      console.log('Scrollbar hide');
+    });
+
   });
 </script>
 

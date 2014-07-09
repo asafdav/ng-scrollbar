@@ -6,6 +6,9 @@ angular.module('ngScrollbar', []).
       restrict: 'A',
       replace: true,
       transclude: true,
+      scope:{
+        'showYScrollbar': '=isBarShown'
+      },
       link: function(scope, element, attrs) {
 
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
@@ -131,6 +134,7 @@ angular.module('ngScrollbar', []).
 
           if (page.height < page.scrollHeight) {
             scope.showYScrollbar = true;
+            scope.$emit('scrollbar.show');
 
             // Calculate the dragger height
             dragger.height = Math.round(page.height/page.scrollHeight * page.height);
@@ -171,6 +175,8 @@ angular.module('ngScrollbar', []).
             redraw();
           } else {
             scope.showYScrollbar = false;
+            scope.$emit('scrollbar.hide');
+
             thumb.off('mousedown');
             transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
             transculdedContainer.attr('style', 'position:relative;top:0'); // little hack to remove other inline styles
