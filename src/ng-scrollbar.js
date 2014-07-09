@@ -199,6 +199,10 @@ angular.module('ngScrollbar', []).
             if (!scope.$$phase) {
               scope.$digest();
             }
+            // update parent for flag update
+            if(!scope.$parent.$$phase){
+              scope.$parent.$digest();
+            }
           }, 72);
         };
 
