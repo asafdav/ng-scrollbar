@@ -7,7 +7,7 @@ angular.module('ngScrollbar', []).
       replace: true,
       transclude: true,
       scope:{
-        'showYScrollbar': '=isBarShown'
+        'showYScrollbar': '=?isBarShown'
       },
       link: function(scope, element, attrs) {
 

@@ -7,7 +7,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       restrict: 'A',
       replace: true,
       transclude: true,
-      scope: { 'showYScrollbar': '=isBarShown' },
+      scope: { 'showYScrollbar': '=?isBarShown' },
       link: function (scope, element, attrs) {
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
         var flags = { bottom: attrs.hasOwnProperty('bottom') };
