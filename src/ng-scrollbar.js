@@ -120,9 +120,9 @@ angular.module('ngScrollbar', []).
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
-            thumb = angular.element(element[0].querySelector(".ngsb-thumb-pos"));
-            thumbContainer = angular.element(element[0].querySelector(".ngsb-thumb"));
-            track = angular.element(element[0].querySelector(".ngsb-track"));
+          thumb = angular.element(element[0].querySelector('.ngsb-thumb-pos'));
+          thumbContainer = angular.element(element[0].querySelector('.ngsb-thumb'));
+          track = angular.element(element[0].querySelector('.ngsb-track'));
 
           // Check if scroll bar is needed
           page.height = element[0].offsetHeight - parentOffsetTop;
