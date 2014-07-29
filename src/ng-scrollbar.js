@@ -8,7 +8,7 @@ angular.module('ngScrollbar', []).
       transclude: true,
       link: function(scope, element, attrs) {
 
-        var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
+        var mainElm, transculdedContainer, thumb, thumbContainer, track;
 
         var flags = {
           bottom: attrs.hasOwnProperty('bottom')
@@ -120,10 +120,9 @@ angular.module('ngScrollbar', []).
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
-          tools = angular.element(mainElm.children()[1]);
-          thumb = angular.element(angular.element(tools.children()[0]).children()[0]);
-          thumbLine = angular.element(thumb.children()[0]);
-          track = angular.element(angular.element(tools.children()[0]).children()[1]);
+            thumb = angular.element(element[0].querySelector(".ngsb-thumb-pos"));
+            thumbContainer = angular.element(element[0].querySelector(".ngsb-thumb"));
+            track = angular.element(element[0].querySelector(".ngsb-track"));
 
           // Check if scroll bar is needed
           page.height = element[0].offsetHeight - parentOffsetTop;
@@ -142,12 +141,12 @@ angular.module('ngScrollbar', []).
             mainElm.css(scrollboxStyle);
             transculdedContainer.css(pageStyle);
             thumb.css(draggerStyle);
-            thumbLine.css(draggerLineStyle);
+            thumbContainer.css(draggerLineStyle);
 
             // Bind scroll bar events
             track.bind('click', trackClick);
 
-            // Handl mousewheel
+            // Handle mousewheel
             transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
 
             // Drag the scroller
