@@ -1,0 +1,161 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@1.4.9
+3 info using node@v0.10.28
+4 verbose publish [ '.' ]
+5 verbose cache add [ '.', null ]
+6 verbose cache add name=undefined spec="." args=[".",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: '.',
+7 verbose parsed url   path: '.',
+7 verbose parsed url   href: '.' }
+8 silly lockFile 3a52ce78- .
+9 verbose lock . /Users/asafdavid/.npm/3a52ce78-.lock
+10 verbose tar pack [ '/var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz',
+10 verbose tar pack   '.' ]
+11 verbose tarball /var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+12 verbose folder .
+13 info prepublish ng-scrollbar@0.0.5
+14 silly lockFile 1f1177db-tar tar://.
+15 verbose lock tar://. /Users/asafdavid/.npm/1f1177db-tar.lock
+16 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+17 verbose lock tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz /Users/asafdavid/.npm/13d8cb24-20885-0-6386896637268364-tmp-tgz.lock
+18 silly lockFile 1f1177db-tar tar://.
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+21 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+22 verbose tar unpack /var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+23 silly lockFile 0017b580-d-npm-ng-scrollbar-0-0-5-package tar:///Users/asafdavid/.npm/ng-scrollbar/0.0.5/package
+24 verbose lock tar:///Users/asafdavid/.npm/ng-scrollbar/0.0.5/package /Users/asafdavid/.npm/0017b580-d-npm-ng-scrollbar-0-0-5-package.lock
+25 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+26 verbose lock tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz /Users/asafdavid/.npm/13d8cb24-20885-0-6386896637268364-tmp-tgz.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 silly gunzTarPerm extractEntry package.json
+29 silly gunzTarPerm extractEntry .npmignore
+30 silly gunzTarPerm extractEntry README.md
+31 silly gunzTarPerm extractEntry LICENSE
+32 silly gunzTarPerm extractEntry Gruntfile.js
+33 silly gunzTarPerm extractEntry karma.conf.js
+34 silly gunzTarPerm extractEntry bower.json
+35 silly gunzTarPerm extractEntry .travis.yml
+36 silly gunzTarPerm extractEntry CONTRIBUTING.md
+37 silly gunzTarPerm extractEntry dist/ng-scrollbar.js
+38 silly gunzTarPerm extractEntry dist/ng-scrollbar.min.js
+39 silly gunzTarPerm extractEntry dist/ng-scrollbar.css
+40 silly gunzTarPerm extractEntry dist/ng-scrollbar.min.css
+41 silly gunzTarPerm extractEntry example/index.html
+42 silly gunzTarPerm extractEntry .editorconfig
+43 silly gunzTarPerm extractEntry src/ng-scrollbar.js
+44 silly gunzTarPerm extractEntry src/ng-scrollbar.less
+45 silly gunzTarPerm extractEntry .jshintrc
+46 silly gunzTarPerm extractEntry test/.jshintrc
+47 silly gunzTarPerm extractEntry test/spec/ng-scrollbar.js
+48 silly lockFile 0017b580-d-npm-ng-scrollbar-0-0-5-package tar:///Users/asafdavid/.npm/ng-scrollbar/0.0.5/package
+49 silly lockFile 0017b580-d-npm-ng-scrollbar-0-0-5-package tar:///Users/asafdavid/.npm/ng-scrollbar/0.0.5/package
+50 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+51 silly lockFile 13d8cb24-20885-0-6386896637268364-tmp-tgz tar:///var/folders/gd/cvjmv1ps5mlfzgn5p7yvhpzw0000gn/T/npm-9184-M4GnAb7d/1411985820885-0.6386896637268364/tmp.tgz
+52 silly lockFile 3a52ce78- .
+53 silly lockFile 3a52ce78- .
+54 silly publish { name: 'ng-scrollbar',
+54 silly publish   version: '0.0.5',
+54 silly publish   main: 'dist/ng-scrollbar.min.js',
+54 silly publish   description: 'A custom scrollbar written in pure AngularJS',
+54 silly publish   keywords: [ 'angular', 'angularjs', 'scrollbar' ],
+54 silly publish   homepage: 'https://github.com/asafdav/ng-scrollbar',
+54 silly publish   bugs: { url: 'https://github.com/asafdav/ng-scrollbar/issues' },
+54 silly publish   author:
+54 silly publish    { name: 'Asaf David',
+54 silly publish      email: 'asafdav@gmail.com',
+54 silly publish      url: 'http://about.me/asafdavid' },
+54 silly publish   repository:
+54 silly publish    { type: 'git',
+54 silly publish      url: 'https://github.com/asafdav/ng-scrollbar.git' },
+54 silly publish   licenses: [ { type: 'MIT' } ],
+54 silly publish   devDependencies:
+54 silly publish    { grunt: '~0.4.1',
+54 silly publish      'grunt-contrib-jshint': '~0.6.4',
+54 silly publish      'grunt-contrib-concat': '~0.3.0',
+54 silly publish      'grunt-contrib-uglify': '~0.2.4',
+54 silly publish      'grunt-contrib-watch': '~0.5.3',
+54 silly publish      'grunt-contrib-clean': '~0.5.0',
+54 silly publish      'grunt-contrib-connect': '~0.5.0',
+54 silly publish      'grunt-contrib-less': '~0.9.0',
+54 silly publish      'grunt-contrib-cssmin': '~0.7.0',
+54 silly publish      'connect-livereload': '~0.3.0',
+54 silly publish      'grunt-open': '~0.2.2',
+54 silly publish      'grunt-karma': '~0.6.2',
+54 silly publish      'grunt-ngmin': '0.0.3',
+54 silly publish      'grunt-bump': '0.0.11',
+54 silly publish      matchdep: '~0.1.2',
+54 silly publish      'karma-script-launcher': '~0.1.0',
+54 silly publish      'karma-chrome-launcher': '~0.1.0',
+54 silly publish      'karma-firefox-launcher': '~0.1.0',
+54 silly publish      'karma-html2js-preprocessor': '~0.1.0',
+54 silly publish      'karma-jasmine': '~0.1.3',
+54 silly publish      'karma-requirejs': '~0.2.0',
+54 silly publish      'karma-coffee-preprocessor': '~0.1.0',
+54 silly publish      'karma-phantomjs-launcher': '~0.1.0',
+54 silly publish      karma: '~0.10.2' },
+54 silly publish   dependencies: {},
+54 silly publish   readme: '# ng-scrollbar\nA custom scrollbar written in pure AngularJS.\n\nWorks with the mouse and on touch screen.\n\nTired of using jquery for a stupid scrollbar? well, this directive is just for you. \n\n\n## Usage\n\n1. Add ng-scrollbar.min.js to you main file (index.html)\n\n  you can download this by:\n  * using bower and running `bower install ng-scrollbar`\n  * Download the [production version][min] or the [development version][max].\n\n  [min]: https://raw.github.com/asafdav/ng-scrollbar/master/dist/angular-ng-scrollbar.min.js\n  [max]: https://raw.github.com/asafdav/ng-scrollbar/master/dist/angular-ng-scrollbar.js\n\n  In your web page:\n\n  ```html\n  <script src="angular.js"></script>\n  <script src="dist/ng-scrollbar.min.js"></script>\n  <link rel="stylesheet" href="dist/ng-scrollbar.min.css" >\n  ```\n\n2. Set `ngScrollbar` as a dependency in your module\n  ```javascript\n  var myapp = angular.module(\'myapp\', [\'ngScrollbar\'])\n  ```\n\n3. Add ng-scrollbar directive to the wanted element, example:\n  ```html\n  <div class="scrollme" ng-scrollbar> .... </div>\n  ```\n\n## Rebuild the scrollbar \nIn case you need to rebuild the scrollbar, you may tell ng-scrollbar to rebuild it for you by broadcasting an event. \nIt\'s useful to use this option when the size or visibility of the container is dynamic and during the link phase the size can\'t be determined. \n  ```html\n  <div class="scrollme" ng-scrollbar rebuild-on="rebuild:me" > .... </div>\n  ```\n\n  ```javascript\n  // rebuild the scrollbar\n  $scope.$broadcast(\'rebuild:me\');\n  ```\n\nIn case you need to rebuild the scrollbar on every window\'s resize, you may use "rebuild-on-resize" option. \n  ```html\n  <div class="scrollme" ng-scrollbar rebuild-on-resize > .... </div>\n  ```\n\nIn case you need to stick content to bottom (chat or something) use "bottom" option.\n  ```html\n  <div class="scrollme" ng-scrollbar bottom > .... </div>\n  ```\n\n## Events and Flags\nOn rebuilding the scrollbar you can get notified by 2 events\n  ```javascript\n    $scope.$on(\'scrollbar.show\', function(){\n      console.log(\'Scrollbar show\');\n    });\n    $scope.$on(\'scrollbar.hide\', function(){\n      console.log(\'Scrollbar hide\');\n    });\n  ```\n\nOr you can use "is-bar-shown" option. It should be read-only\n  ```html\n  <div class="scrollme" ng-scrollbar is-bar-shown="flag" > .... </div>\n  <div> Bar shown: {{flag}} </div>\n  ```\n\n## Examples\nSee the example in the respository.\n\n\n[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-scrollbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")\n\n',
+54 silly publish   readmeFilename: 'README.md',
+54 silly publish   _id: 'ng-scrollbar@0.0.5',
+54 silly publish   _shasum: 'e6a03796726a9f1d19f755760884c35372aaf71e',
+54 silly publish   _from: '.' }
+55 verbose url raw ng-scrollbar
+56 verbose url resolving [ 'https://registry.npmjs.org/', './ng-scrollbar' ]
+57 verbose url resolved https://registry.npmjs.org/ng-scrollbar
+58 info trying registry request attempt 1 at 13:17:00
+59 http PUT https://registry.npmjs.org/ng-scrollbar
+60 http 500 https://registry.npmjs.org/ng-scrollbar
+61 info retry will retry, error on last attempt: Error: pound_internal_server_error : ng-scrollbar
+62 info trying registry request attempt 2 at 13:17:12
+63 http PUT https://registry.npmjs.org/ng-scrollbar
+64 http 500 https://registry.npmjs.org/ng-scrollbar
+65 info retry will retry, error on last attempt: Error: pound_internal_server_error : ng-scrollbar
+66 info trying registry request attempt 3 at 13:18:13
+67 http PUT https://registry.npmjs.org/ng-scrollbar
+68 http 500 https://registry.npmjs.org/ng-scrollbar
+69 verbose headers { date: 'Mon, 29 Sep 2014 10:18:15 GMT',
+69 verbose headers   server: 'Apache',
+69 verbose headers   'content-type': 'text/html',
+69 verbose headers   expires: 'now',
+69 verbose headers   pragma: 'no-cache',
+69 verbose headers   'cache-control': 'max-age=0',
+69 verbose headers   'content-length': '111',
+69 verbose headers   'accept-ranges': 'bytes',
+69 verbose headers   via: '1.1 varnish',
+69 verbose headers   'x-served-by': 'cache-lo80-LHR',
+69 verbose headers   'x-cache': 'MISS',
+69 verbose headers   'x-cache-hits': '0',
+69 verbose headers   'x-timer': 'S1411985894.410128,VS0,VE611',
+69 verbose headers   connection: 'close' }
+70 error publish Failed PUT 500
+71 error Error: pound_internal_server_error : ng-scrollbar
+71 error     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:273:14)
+71 error     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:211:65)
+71 error     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:123:22)
+71 error     at Request.EventEmitter.emit (events.js:98:17)
+71 error     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:893:14)
+71 error     at Request.EventEmitter.emit (events.js:117:20)
+71 error     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:844:12)
+71 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+71 error     at _stream_readable.js:919:16
+71 error     at process._tickCallback (node.js:419:13)
+72 error If you need help, you may report this *entire* log,
+72 error including the npm and node versions, at:
+72 error     <http://github.com/npm/npm/issues>
+73 error System Darwin 13.4.0
+74 error command "node" "/usr/local/bin/npm" "publish"
+75 error cwd /Users/asafdavid/git/AngularJS/ng-scrollbar
+76 error node -v v0.10.28
+77 error npm -v 1.4.9
+78 verbose exit [ 1, true ]
