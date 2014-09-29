@@ -8,7 +8,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       restrict: 'A',
       replace: true,
       transclude: true,
-      link: function (scope, element, attrs) {
+      scope:{
+        'showYScrollbar': '=?isBarShown'
+      },
+      link: function(scope, element, attrs) {
 
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
 
@@ -58,14 +61,14 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           };
         };
 
-        var redraw = function () {
+        var redraw = function() {
           thumb.css('top', dragger.top + 'px');
           var draggerOffset = dragger.top / page.height;
           page.top = -Math.round(page.scrollHeight * draggerOffset);
           transculdedContainer.css('top', page.top + 'px');
         };
 
-        var trackClick = function (event) {
+        var trackClick = function(event) {
           var offsetY = event.hasOwnProperty('offsetY') ? event.offsetY : event.layerY;
           var newTop = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
 
@@ -75,7 +78,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.stopPropagation();
         };
 
-        var wheelHandler = function (event) {
+        var wheelHandler = function(event) {
 
           var wheelDivider = 20; // so it can be changed easily
 
@@ -151,15 +154,16 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           page.scrollHeight = transculdedContainer[0].scrollHeight;
 
           if (page.height < page.scrollHeight) {
+            scope.showYScrollbar = true;
+            scope.$emit('scrollbar.show');
 
             // Calculate the dragger height
-            scope.showYScrollbar = true;
             dragger.height = Math.round(page.height / page.scrollHeight * page.height);
             dragger.trackHeight = page.height;
 
             // update the transcluded content style and clear the parent's
             calcStyles();
-            element.css({ overflow: 'hidden' });
+            element.css({overflow: 'hidden'});
             mainElm.css(scrollboxStyle);
             transculdedContainer.css(pageStyle);
             thumb.css(draggerStyle);
@@ -197,16 +201,18 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             redraw();
           } else {
             scope.showYScrollbar = false;
+            scope.$emit('scrollbar.hide');
+
             thumb.off('mousedown');
             transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
             transculdedContainer.attr('style', 'position:relative;top:0'); // little hack to remove other inline styles
-            mainElm.css({ height: '100%' });
+            mainElm.css({height: '100%'});
           }
         };
 
         var rebuildTimer;
 
-        var rebuild = function (e, data) {
+        var rebuild = function(e, data) {
           /* jshint -W116 */
           if (rebuildTimer != null) {
             clearTimeout(rebuildTimer);
@@ -218,6 +224,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             buildScrollbar(rollToBottom);
             if (!scope.$$phase) {
               scope.$digest();
+            }
+            // update parent for flag update
+            if(!scope.$parent.$$phase){
+              scope.$parent.$digest();
             }
           }, 72);
         };

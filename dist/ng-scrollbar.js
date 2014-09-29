@@ -7,6 +7,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       restrict: 'A',
       replace: true,
       transclude: true,
+      scope: { 'showYScrollbar': '=?isBarShown' },
       link: function (scope, element, attrs) {
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
         var flags = { bottom: attrs.hasOwnProperty('bottom') };
@@ -110,8 +111,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
           page.scrollHeight = transculdedContainer[0].scrollHeight;
           if (page.height < page.scrollHeight) {
-            // Calculate the dragger height
             scope.showYScrollbar = true;
+            scope.$emit('scrollbar.show');
+            // Calculate the dragger height
             dragger.height = Math.round(page.height / page.scrollHeight * page.height);
             dragger.trackHeight = page.height;
             // update the transcluded content style and clear the parent's
@@ -148,6 +150,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             redraw();
           } else {
             scope.showYScrollbar = false;
+            scope.$emit('scrollbar.hide');
             thumb.off('mousedown');
             transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
             transculdedContainer.attr('style', 'position:relative;top:0');
@@ -168,6 +171,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             buildScrollbar(rollToBottom);
             if (!scope.$$phase) {
               scope.$digest();
+            }
+            // update parent for flag update
+            if (!scope.$parent.$$phase) {
+              scope.$parent.$digest();
             }
           }, 72);
         };

@@ -57,6 +57,23 @@ In case you need to stick content to bottom (chat or something) use "bottom" opt
   <div class="scrollme" ng-scrollbar bottom > .... </div>
   ```
 
+## Events and Flags
+On rebuilding the scrollbar you can get notified by 2 events
+  ```javascript
+    $scope.$on('scrollbar.show', function(){
+      console.log('Scrollbar show');
+    });
+    $scope.$on('scrollbar.hide', function(){
+      console.log('Scrollbar hide');
+    });
+  ```
+
+Or you can use "is-bar-shown" option. It should be read-only
+  ```html
+  <div class="scrollme" ng-scrollbar is-bar-shown="flag" > .... </div>
+  <div> Bar shown: {{flag}} </div>
+  ```
+
 ## Examples
 See the example in the respository.
 
