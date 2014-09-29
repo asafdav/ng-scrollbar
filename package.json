@@ -1,16 +1,19 @@
 {
   "name": "ng-scrollbar",
-  "version": "0.0.1",
-  "description": "ng-scrollbar",
+  "version": "0.0.5",
+  "main": "dist/ng-scrollbar.min.js",
+  "description": "A custom scrollbar written in pure AngularJS",
   "keywords": [
-    "angular"
+    "angular",
+    "angularjs",
+    "scrollbar"
   ],
   "homepage": "https://github.com/asafdav/ng-scrollbar",
   "bugs": "https://github.com/asafdav/ng-scrollbar/issues",
   "author": {
     "name": "Asaf David",
-    "email": "",
-    "url": "https://github.com/asafdav"
+    "email": "asafdav@gmail.com",
+    "url": "http://about.me/asafdavid"
   },
   "repository": {
     "type": "git",
