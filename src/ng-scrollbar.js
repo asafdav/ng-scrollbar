@@ -21,6 +21,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
         var win = angular.element($window);
 
+        var hasAddEventListener = !!win[0].addEventListener;
+        var hasRemoveEventListener = !!win[0].removeEventListener;
+
         // Elements
         var dragger = {
           top: 0
@@ -131,12 +134,28 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.stopPropagation();
         };
 
+        var registerEvent = function(elm) {
+          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+          if (hasAddEventListener) {
+            elm.addEventListener(wheelEvent, wheelHandler, false);
+          } else {
+            elm.attachEvent('onmousewheel', wheelHandler);
+          }
+        };
+
+        var removeEvent = function(elm) {
+          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+          if (hasRemoveEventListener) {
+            elm.removeEventListener(wheelEvent, wheelHandler, false);
+          } else {
+            elm.detachEvent('onmousewheel', wheelHandler);
+          }
+        };
+
         var buildScrollbar = function (rollToBottom) {
 
           // Getting top position of a parent element to place scroll correctly
           var parentOffsetTop = element[0].parentElement.offsetTop;
-
-          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
 
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
@@ -172,8 +191,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             // Bind scroll bar events
             track.bind('click', trackClick);
 
-            // Handl mousewheel
-            transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
+            // Handle mousewheel
+            registerEvent(transculdedContainer[0]);
 
             // Drag the scroller with the mouse
             thumb.on('mousedown', function (event) {
@@ -204,7 +223,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.$emit('scrollbar.hide');
 
             thumb.off('mousedown');
-            transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
+            removeEvent(transculdedContainer[0]);
             transculdedContainer.attr('style', 'position:relative;top:0'); // little hack to remove other inline styles
             mainElm.css({height: '100%'});
           }
