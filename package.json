@@ -1,6 +1,6 @@
 {
   "name": "ng-scrollbar",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/ng-scrollbar.min.js",
   "description": "A custom scrollbar written in pure AngularJS",
   "keywords": [
