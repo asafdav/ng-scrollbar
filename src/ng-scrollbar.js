@@ -83,15 +83,22 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
         var wheelHandler = function(event) {
 
-          var wheelDivider = 20; // so it can be changed easily
+          var wheelSpeed = 40;
 
-          var deltaY = event.wheelDeltaY !== undefined ?
-            event.wheelDeltaY / wheelDivider :
-              event.wheelDelta !== undefined ?
-            event.wheelDelta / wheelDivider :
-            -event.detail * (wheelDivider / 10);
+          // Mousewheel speed normalization approach adopted from
+          // http://stackoverflow.com/a/13650579/1427418
+          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n-1;
 
-          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - deltaY));
+          // Normalize delta
+          d = d ? w && (f = w/d) ? d/f : -d/1.35 : w/120;
+          // Quadratic scale if |d| > 1
+          d = d < 1 ? d < -1 ? (-Math.pow(d, 2) - n1) / n : d : (Math.pow(d, 2) + n1) / n;
+          // Delta *should* not be greater than 2...
+          event.delta = Math.min(Math.max(d / 2, -1), 1);
+
+          event.delta = event.delta * wheelSpeed;
+
+          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
           redraw();
 
           if (!!event.preventDefault) {
