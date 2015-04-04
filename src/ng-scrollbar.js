@@ -161,8 +161,11 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
         var buildScrollbar = function (rollToBottom) {
 
-          // Getting top position of a parent element to place scroll correctly
-          var parentOffsetTop = element[0].parentElement.offsetTop;
+          // Getting top position of a parent element to place scroll correctly,
+          // or ignore it if requested by user
+          var parentOffsetTop = attrs.hasOwnProperty('ignoreOffsetTop')
+            ? 0
+            : element[0].parentElement.offsetTop;
 
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
