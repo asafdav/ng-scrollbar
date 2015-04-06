@@ -158,6 +158,17 @@ module.exports = function(grunt) {
       //   }
       // }
     },
+    copy: {
+      less: {
+        expand: true,
+        cwd: '<%= yo.src %>/',
+        src: '*.less',
+        dest: '<%= yo.src %>/',
+        rename: function(dest, path) {
+          return (dest + path).replace('.less', '.scss');
+        }
+      }
+    },
     concat: {
       options: {
         banner: '<%= meta.banner %>',
@@ -187,6 +198,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'less:dist',
+    'copy:less',
     'cssmin:minify',
     'ngmin:dist',
     'uglify:dist'
