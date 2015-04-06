@@ -1,6 +1,6 @@
 {
   "name": "ng-scrollbar",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/ng-scrollbar.min.js",
   "description": "A custom scrollbar written in pure AngularJS",
   "keywords": [
@@ -31,6 +31,7 @@
     "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.8.0",
     "grunt-contrib-connect": "~0.5.0",
     "grunt-contrib-less": "~0.9.0",
     "grunt-contrib-cssmin": "~0.7.0",

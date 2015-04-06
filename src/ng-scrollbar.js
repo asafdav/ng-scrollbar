@@ -1,9 +1,27 @@
 'use strict';
 
-angular.module('ngScrollbar', []).directive('ngScrollbar', [
+angular.module('ngScrollbar', [])
+.provider('$ngScrollbar', [
+  function () {
+    this.options = {
+      thumb: {
+        maxHeight: 1
+      }
+    };
+    this.$get = function() {
+      return this.options;
+    };
+
+    this.set = function(options) {
+      this.options = angular.extend(this.options, options);
+    }
+  }
+])
+.directive('ngScrollbar', [
   '$parse',
   '$window',
-  function ($parse, $window) {
+  '$ngScrollbar',
+  function ($parse, $window, $ngScrollbar) {
     return {
       restrict: 'A',
       replace: true,
@@ -87,7 +105,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           // Mousewheel speed normalization approach adopted from
           // http://stackoverflow.com/a/13650579/1427418
-          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n-1;
+          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n- 1, f;
 
           // Normalize delta
           d = d ? w && (f = w/d) ? d/f : -d/1.35 : w/120;
@@ -184,7 +202,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.$emit('scrollbar.show');
 
             // Calculate the dragger height
-            dragger.height = Math.round(page.height / page.scrollHeight * page.height);
+            var draggerCalculatedHeight = Math.round(page.height / page.scrollHeight * page.height);
+            dragger.height = draggerCalculatedHeight > $ngScrollbar.thumb.minHeight ? Math.round(page.height / page.scrollHeight * page.height) : $ngScrollbar.thumb.minHeight;
             dragger.trackHeight = page.height;
 
             // update the transcluded content style and clear the parent's
