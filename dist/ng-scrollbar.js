@@ -1,8 +1,17 @@
 'use strict';
-angular.module('ngScrollbar', []).directive('ngScrollbar', [
+angular.module('ngScrollbar', []).provider('$ngScrollbar', [function () {
+    this.options = { thumb: { maxHeight: 1 } };
+    this.$get = function () {
+      return this.options;
+    };
+    this.set = function (options) {
+      this.options = angular.extend(this.options, options);
+    };
+  }]).directive('ngScrollbar', [
   '$parse',
   '$window',
-  function ($parse, $window) {
+  '$ngScrollbar',
+  function ($parse, $window, $ngScrollbar) {
     return {
       restrict: 'A',
       replace: true,
@@ -12,6 +21,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
         var flags = { bottom: attrs.hasOwnProperty('bottom') };
         var win = angular.element($window);
+        var hasAddEventListener = !!win[0].addEventListener;
+        var hasRemoveEventListener = !!win[0].removeEventListener;
         // Elements
         var dragger = { top: 0 }, page = { top: 0 };
         // Styles
@@ -55,10 +66,18 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.stopPropagation();
         };
         var wheelHandler = function (event) {
-          var wheelDivider = 20;
-          // so it can be changed easily
-          var deltaY = event.wheelDeltaY !== undefined ? event.wheelDeltaY / wheelDivider : event.wheelDelta !== undefined ? event.wheelDelta / wheelDivider : -event.detail * (wheelDivider / 10);
-          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - deltaY));
+          var wheelSpeed = 40;
+          // Mousewheel speed normalization approach adopted from
+          // http://stackoverflow.com/a/13650579/1427418
+          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n - 1, f;
+          // Normalize delta
+          d = d ? w && (f = w / d) ? d / f : -d / 1.35 : w / 120;
+          // Quadratic scale if |d| > 1
+          d = d < 1 ? d < -1 ? (-Math.pow(d, 2) - n1) / n : d : (Math.pow(d, 2) + n1) / n;
+          // Delta *should* not be greater than 2...
+          event.delta = Math.min(Math.max(d / 2, -1), 1);
+          event.delta = event.delta * wheelSpeed;
+          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
           redraw();
           if (!!event.preventDefault) {
             event.preventDefault();
@@ -93,10 +112,25 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           win.off('touchend', _touchEnd);
           event.stopPropagation();
         };
+        var registerEvent = function (elm) {
+          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+          if (hasAddEventListener) {
+            elm.addEventListener(wheelEvent, wheelHandler, false);
+          } else {
+            elm.attachEvent('onmousewheel', wheelHandler);
+          }
+        };
+        var removeEvent = function (elm) {
+          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
+          if (hasRemoveEventListener) {
+            elm.removeEventListener(wheelEvent, wheelHandler, false);
+          } else {
+            elm.detachEvent('onmousewheel', wheelHandler);
+          }
+        };
         var buildScrollbar = function (rollToBottom) {
           // Getting top position of a parent element to place scroll correctly
           var parentOffsetTop = element[0].parentElement.offsetTop;
-          var wheelEvent = win[0].onmousewheel !== undefined ? 'mousewheel' : 'DOMMouseScroll';
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
@@ -114,7 +148,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.showYScrollbar = true;
             scope.$emit('scrollbar.show');
             // Calculate the dragger height
-            dragger.height = Math.round(page.height / page.scrollHeight * page.height);
+            var draggerCalculatedHeight = Math.round(page.height / page.scrollHeight * page.height);
+            dragger.height = draggerCalculatedHeight > $ngScrollbar.thumb.minHeight ? Math.round(page.height / page.scrollHeight * page.height) : $ngScrollbar.thumb.minHeight;
             dragger.trackHeight = page.height;
             // update the transcluded content style and clear the parent's
             calcStyles();
@@ -125,8 +160,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             thumbLine.css(draggerLineStyle);
             // Bind scroll bar events
             track.bind('click', trackClick);
-            // Handl mousewheel
-            transculdedContainer[0].addEventListener(wheelEvent, wheelHandler, false);
+            // Handle mousewheel
+            registerEvent(transculdedContainer[0]);
             // Drag the scroller with the mouse
             thumb.on('mousedown', function (event) {
               lastOffsetY = event.pageY - thumb[0].offsetTop;
@@ -152,7 +187,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             scope.showYScrollbar = false;
             scope.$emit('scrollbar.hide');
             thumb.off('mousedown');
-            transculdedContainer[0].removeEventListener(wheelEvent, wheelHandler, false);
+            removeEvent(transculdedContainer[0]);
             transculdedContainer.attr('style', 'position:relative;top:0');
             // little hack to remove other inline styles
             mainElm.css({ height: '100%' });
