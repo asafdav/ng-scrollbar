@@ -16,7 +16,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
 
         var flags = {
-          bottom: attrs.hasOwnProperty('bottom')
+          bottom: attrs.hasOwnProperty('bottom'),
+          rebuildOnTop: attrs.hasOwnProperty('rebuildOnTop')
         };
 
         var win = angular.element($window);
@@ -159,9 +160,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
         };
 
-        var buildScrollbar = function (rollToBottom) {
+        var buildScrollbar = function (rollToBottom,rollToTop) {
 
           rollToBottom = flags.bottom || rollToBottom;
+          rollToTop = flags.rebuildOnTop || rollToTop;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -213,6 +215,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             if (rollToBottom) {
               flags.bottom = false;
               dragger.top = parseInt(page.height, 10) - parseInt(dragger.height, 10);
+            }  else if (rollToTop) {
+              dragger.top = 0;
             } else {
               dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10)));
             }
@@ -238,9 +242,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
+          var rollToTop = !!data && !!data.rollToTop;
           rebuildTimer = setTimeout(function () {
             page.height = null;
-            buildScrollbar(rollToBottom);
+            buildScrollbar(rollToBottom,rollToTop);
             if (!scope.$$phase) {
               scope.$digest();
             }
