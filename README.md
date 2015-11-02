@@ -76,6 +76,7 @@ Or you can use "is-bar-shown" option. It should be read-only
 
 ## Examples
 See the example in the respository.
+[example/index.html](https://htmlpreview.github.io/?https://github.com/asafdav/ng-scrollbar/blob/master/example/index.html)
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-scrollbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
