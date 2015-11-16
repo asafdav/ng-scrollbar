@@ -105,7 +105,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           // check if the scrollbar is not on top or on bottom, then stop propagation of mousewheel event
           if(oldTop !== 0 && oldTop !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))
-            && dragger.top !== 0 && dragger.top !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))) {
+            || dragger.top !== 0 && dragger.top !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))) {
             event.stopPropagation();
           }
 
