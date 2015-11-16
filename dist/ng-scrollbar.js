@@ -73,6 +73,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.delta = event.delta * wheelSpeed;
           dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
           redraw();
+          event.stopPropagation();
           if (!!event.preventDefault) {
             event.preventDefault();
           } else {
