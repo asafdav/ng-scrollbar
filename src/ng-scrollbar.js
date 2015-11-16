@@ -88,7 +88,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           // Mousewheel speed normalization approach adopted from
           // http://stackoverflow.com/a/13650579/1427418
-          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n-1;
+          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n- 1,oldTop = dragger.top;
 
           // Normalize delta
           d = d ? w && (f = w/d) ? d/f : -d/1.35 : w/120;
@@ -99,12 +99,16 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           event.delta = event.delta * wheelSpeed;
 
+
+
+          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
+
           // check if the scrollbar is not on top or on bottom, then stop propagation of mousewheel event
-          if(dragger.top !== 0 && dragger.top !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))) {
+          if(oldTop !== 0 && oldTop !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))
+            && dragger.top !== 0 && dragger.top !== (parseInt(page.height, 10) - parseInt(dragger.height, 10))) {
             event.stopPropagation();
           }
 
-          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
           redraw();
           if (!!event.preventDefault) {
             event.preventDefault();
