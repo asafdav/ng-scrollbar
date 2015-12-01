@@ -195,7 +195,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
-          var rollToTop = !!data && !!data.rollToTop;
+          var rollToTop = null;
+          if (!!data && data.rollToTop !== undefined) {
+            rollToTop = !!data && !!data.rollToTop;
+          }
           rebuildTimer = setTimeout(function () {
             page.height = null;
             buildScrollbar(rollToBottom, rollToTop);
