@@ -128,7 +128,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         };
         var buildScrollbar = function (rollToBottom, rollToTop) {
           rollToBottom = flags.bottom || rollToBottom;
-          rollToTop = flags.rebuildOnTop || rollToTop;
+          rollToTop = rollToTop !== null ? rollToTop : flags.rebuildOnTop;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
