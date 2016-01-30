@@ -170,7 +170,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           thumbLine = angular.element(thumb.children()[0]);
           track = angular.element(angular.element(tools.children()[0]).children()[1]);
 
-          page.height = element[0].offsetHeight;
+          page.height = element[0].offsetParent.offsetHeight;
           page.scrollHeight = transculdedContainer[0].scrollHeight;
 
           if (page.height < page.scrollHeight) {
