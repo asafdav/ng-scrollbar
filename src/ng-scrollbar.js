@@ -159,9 +159,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
         };
 
-        var buildScrollbar = function (rollToBottom) {
+        var lastBottom = null;
 
-          rollToBottom = flags.bottom || rollToBottom;
+        var buildScrollbar = function (rollToBottom) {
+          rollToBottom = (flags.bottom || rollToBottom) && (dragger.top === lastBottom || lastBottom === null);
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
           tools = angular.element(mainElm.children()[1]);
@@ -210,9 +211,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
               event.preventDefault();
             });
 
+            lastBottom = parseInt(page.height, 10) - parseInt(dragger.height, 10);
+
             if (rollToBottom) {
-              flags.bottom = false;
-              dragger.top = parseInt(page.height, 10) - parseInt(dragger.height, 10);
+              dragger.top = lastBottom;
             } else {
               dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10)));
             }
