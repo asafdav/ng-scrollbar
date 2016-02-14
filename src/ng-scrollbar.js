@@ -70,12 +70,18 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           page.top = -Math.round(page.scrollHeight * draggerOffset);
           transculdedContainer.css('top', page.top + 'px');
         };
+        var setTop = function (newTop) {
+          var raiseEvent = dragger.top !== newTop;
+          dragger.top = newTop;
 
+          if (raiseEvent && dragger.top + dragger.height == dragger.trackHeight) {
+            scope.$emit('scrollbar.bottom');
+          }
+        };
         var trackClick = function(event) {
           var offsetY = event.hasOwnProperty('offsetY') ? event.offsetY : event.layerY;
           var newTop = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
-
-          dragger.top = newTop;
+          setTop(newTop);
           redraw();
 
           event.stopPropagation();
@@ -98,7 +104,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           event.delta = event.delta * wheelSpeed;
 
-          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
+          setTop(Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta)));
           redraw();
 
           if (!!event.preventDefault) {
@@ -111,7 +117,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var lastOffsetY = 0;
 
         var thumbDrag = function (event, offsetX, offsetY) {
-          dragger.top = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
+          setTop(Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY)));
           event.stopPropagation();
         };
 
