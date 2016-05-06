@@ -64,11 +64,15 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           };
         };
 
-        var redraw = function() {
+        var redraw = function(scrolling) {
           thumb.css('top', dragger.top + 'px');
           var draggerOffset = dragger.top / page.height;
           page.top = -Math.round(page.scrollHeight * draggerOffset);
           transculdedContainer.css('top', page.top + 'px');
+
+          if (scrolling) {
+            scope.$emit('scrollbar.scroll', { top: top });
+          }
         };
         var setTop = function (newTop) {
           var raiseEvent = dragger.top !== newTop;
@@ -105,7 +109,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           event.delta = event.delta * wheelSpeed;
 
           setTop(Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta)));
-          redraw();
+          redraw(true);
 
           if (!!event.preventDefault) {
             event.preventDefault();
@@ -125,7 +129,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           var newOffsetX = 0;
           var newOffsetY = event.pageY - thumb[0].scrollTop - lastOffsetY;
           thumbDrag(event, newOffsetX, newOffsetY);
-          redraw();
+          redraw(true);
         };
 
         var _mouseUp = function (event) {
@@ -138,7 +142,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           var newOffsetX = 0;
           var newOffsetY = event.originalEvent.changedTouches[0].pageY - thumb[0].scrollTop - lastOffsetY;
           thumbDrag(event, newOffsetX, newOffsetY);
-          redraw();
+          redraw(true);
         };
 
         var _touchEnd = function (event) {
