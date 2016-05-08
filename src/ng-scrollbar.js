@@ -64,18 +64,33 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           };
         };
 
-        var redraw = function() {
+        var redraw = function(scrolling) {
           thumb.css('top', dragger.top + 'px');
-          var draggerOffset = dragger.top / page.height;
-          page.top = -Math.round(page.scrollHeight * draggerOffset);
+          if (dragger.top > page.height / 2) {
+            var draggerOffset = (dragger.top + dragger.height) / page.height;
+            page.top = -Math.round((page.scrollHeight - page.height) * draggerOffset);
+          } else {
+            var draggerOffset = dragger.top / page.height;
+            page.top = -Math.round(page.scrollHeight * draggerOffset);
+          }
           transculdedContainer.css('top', page.top + 'px');
-        };
 
+          if (scrolling) {
+            scope.$emit('scrollbar.scroll', { top: top });
+          }
+        };
+        var setTop = function (newTop) {
+          var raiseEvent = dragger.top !== newTop;
+          dragger.top = newTop;
+
+          if (raiseEvent && dragger.top + dragger.height == dragger.trackHeight) {
+            scope.$emit('scrollbar.bottom');
+          }
+        };
         var trackClick = function(event) {
           var offsetY = event.hasOwnProperty('offsetY') ? event.offsetY : event.layerY;
           var newTop = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
-
-          dragger.top = newTop;
+          setTop(newTop);
           redraw();
 
           event.stopPropagation();
@@ -98,8 +113,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
           event.delta = event.delta * wheelSpeed;
 
-          dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta));
-          redraw();
+          setTop(Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10) - event.delta)));
+          redraw(true);
 
           if (!!event.preventDefault) {
             event.preventDefault();
@@ -111,7 +126,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         var lastOffsetY = 0;
 
         var thumbDrag = function (event, offsetX, offsetY) {
-          dragger.top = Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY));
+          setTop(Math.max(0, Math.min(parseInt(dragger.trackHeight, 10) - parseInt(dragger.height, 10), offsetY)));
           event.stopPropagation();
         };
 
@@ -119,7 +134,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           var newOffsetX = 0;
           var newOffsetY = event.pageY - thumb[0].scrollTop - lastOffsetY;
           thumbDrag(event, newOffsetX, newOffsetY);
-          redraw();
+          redraw(true);
         };
 
         var _mouseUp = function (event) {
@@ -132,7 +147,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           var newOffsetX = 0;
           var newOffsetY = event.originalEvent.changedTouches[0].pageY - thumb[0].scrollTop - lastOffsetY;
           thumbDrag(event, newOffsetX, newOffsetY);
-          redraw();
+          redraw(true);
         };
 
         var _touchEnd = function (event) {
@@ -159,7 +174,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
         };
 
-        var buildScrollbar = function (rollToBottom) {
+        var buildScrollbar = function (rollToBottom, ensureCanScroll) {
 
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
@@ -217,6 +232,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
               dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10)));
             }
 
+            if (ensureCanScroll) {
+              dragger.top -= 1;
+            }
+
             redraw();
           } else {
             scope.showYScrollbar = false;
@@ -238,9 +257,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
+          var ensureCanScroll = !!data && !!data.ensureCanScroll;
           rebuildTimer = setTimeout(function () {
             page.height = null;
-            buildScrollbar(rollToBottom);
+            buildScrollbar(rollToBottom, ensureCanScroll);
             if (!scope.$$phase) {
               scope.$digest();
             }
