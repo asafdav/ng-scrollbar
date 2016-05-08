@@ -66,8 +66,8 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
 
         var redraw = function(scrolling) {
           thumb.css('top', dragger.top + 'px');
-          var draggerOffset = dragger.top / page.height;
-          page.top = -Math.round(page.scrollHeight * draggerOffset);
+          var draggerOffset = (dragger.top + dragger.height) / page.height;
+          page.top = -Math.round((page.scrollHeight - page.height) * draggerOffset);
           transculdedContainer.css('top', page.top + 'px');
 
           if (scrolling) {
