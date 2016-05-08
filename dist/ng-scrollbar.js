@@ -129,7 +129,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             elm.detachEvent('onmousewheel', wheelHandler);
           }
         };
-        var buildScrollbar = function (rollToBottom) {
+        var buildScrollbar = function (rollToBottom, ensureCanScroll) {
           rollToBottom = flags.bottom || rollToBottom;
           mainElm = angular.element(element.children()[0]);
           transculdedContainer = angular.element(mainElm.children()[0]);
@@ -176,6 +176,9 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
             } else {
               dragger.top = Math.max(0, Math.min(parseInt(page.height, 10) - parseInt(dragger.height, 10), parseInt(dragger.top, 10)));
             }
+            if (ensureCanScroll) {
+              dragger.top -= 1;
+            }
             redraw();
           } else {
             scope.showYScrollbar = false;
@@ -195,9 +198,10 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           }
           /* jshint +W116 */
           var rollToBottom = !!data && !!data.rollToBottom;
+          var ensureCanScroll = !!data && !!data.ensureCanScroll;
           rebuildTimer = setTimeout(function () {
             page.height = null;
-            buildScrollbar(rollToBottom);
+            buildScrollbar(rollToBottom, ensureCanScroll);
             if (!scope.$$phase) {
               scope.$digest();
             }
