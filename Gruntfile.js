@@ -176,6 +176,14 @@ module.exports = function(grunt) {
         src: '<%= concat.dist.dest %>',
         dest: '<%= yo.dist %>/<%= pkg.name %>.min.js'
       }
+    },
+    copy:{
+      dist: {
+              expand: true,
+              flatten: true,
+              src: '<%= yo.src %>/<%= yo.name %>.html',
+              dest: '<%= yo.dist %>/'
+            }
     }
   });
 
@@ -186,6 +194,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'copy:dist',
     'less:dist',
     'cssmin:minify',
     'ngmin:dist',

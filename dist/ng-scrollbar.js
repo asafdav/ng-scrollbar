@@ -207,7 +207,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           win.on('resize', rebuild);
         }
       },
-      template: '<div>' + '<div class="ngsb-wrap">' + '<div class="ngsb-container" ng-transclude></div>' + '<div class="ngsb-scrollbar" style="position: absolute; display: block;" ng-show="showYScrollbar">' + '<div class="ngsb-thumb-container">' + '<div class="ngsb-thumb-pos" oncontextmenu="return false;">' + '<div class="ngsb-thumb" ></div>' + '</div>' + '<div class="ngsb-track"></div>' + '</div>' + '</div>' + '</div>' + '</div>'
+      templateUrl: '../dist/ng-scrollbar.html'
     };
   }
 ]);
