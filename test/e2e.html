@@ -1,26 +1,25 @@
 <!doctype html>
-<html>
+<html ng-app="myapp">
 <head>
-  <link href="bootstrap.min.css" rel="stylesheet">
-  <script src="../bower_components/angular/angular.js"></script>
-
+  <link href="../example/bootstrap.min.css" rel="stylesheet">
   <style>
     .scrollme {
       max-height: 200px;
     }
   </style>
+  <title>E2E</title>
 </head>
 <body>
 
-<div ng-app="myapp">
+<div>
   <div class="container" ng-controller="myctrl">
 
     <div class="page-header">
       <h1>ngScrollBar <small>example</small></h1>
     </div>
-    Bar is shown: {{barShown}}
-    <div class="well" >
-      <div class="scrollme" ng-scrollbar theme="default" is-bar-shown="barShown">
+
+    <div class="well" style="padding: 0">
+      <div class="scrollme" ng-scrollbar theme="mac" is-bar-shown="barShown">
         <h1>Scroll me down!</h1>
         <p>...</p>
         <p>...</p>
@@ -31,24 +30,12 @@
         <p><a class="btn btn-primary btn-lg" role="button" href="https://github.com/asafdav/ng-scrollbar">Learn more</a></p>
       </div>
     </div>
-
-    <h3>MacOSX theme</h3>
-    <div class="well" style="padding: 0">
-      <div class="scrollme" ng-scrollbar theme="mac">
-        <h1>Scroll me down!</h1>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-      </div>
-    </div>
   </div>
 
 </div>
-
-  <script src="../dist/ng-scrollbar.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../src/ng-scrollbar.js"></script>
 <script>
   var myapp = angular.module('myapp', ['ngScrollbar']);
 
@@ -66,3 +53,9 @@
 
 </body>
 </html>
+
+$('.scrollme').bind('mousewheel DOMMouseScroll', function(event) {
+console.log(event);
+})
+
+00 22 d7 50 33 77

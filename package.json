@@ -1,6 +1,6 @@
 {
   "name": "ng-scrollbar",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "dist/ng-scrollbar.min.js",
   "description": "A custom scrollbar written in pure AngularJS",
   "keywords": [
@@ -25,31 +25,34 @@
     }
   ],
   "devDependencies": {
-    "connect-livereload": "~0.3.0",
-    "grunt": "~0.4.1",
-    "grunt-bump": "0.0.11",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-connect": "~0.5.0",
+    "angular-scenario": "^1.5.8",
+    "connect-livereload": "0.6.0",
+    "grunt": "1.0.1",
+    "grunt-bump": "0.8.0",
+    "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-connect": "1.0.2",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "~0.7.0",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-karma": "~0.6.2",
+    "grunt-contrib-cssmin": "1.0.2",
+    "grunt-contrib-jshint": "1.0.0",
+    "grunt-contrib-less": "1.4.0",
+    "grunt-contrib-uglify": "2.0.0",
+    "grunt-contrib-watch": "1.0.0",
+    "grunt-karma": "2.0.0",
     "grunt-ngmin": "0.0.3",
     "grunt-open": "~0.2.2",
-    "karma": "~0.10.2",
-    "karma-chrome-launcher": "~0.1.0",
-    "karma-coffee-preprocessor": "~0.1.0",
-    "karma-firefox-launcher": "~0.1.0",
-    "karma-html2js-preprocessor": "~0.1.0",
-    "karma-jasmine": "~0.1.3",
-    "karma-phantomjs-launcher": "~0.1.0",
-    "karma-requirejs": "~0.2.0",
-    "karma-script-launcher": "~0.1.0",
-    "matchdep": "~0.1.2"
+    "karma": "1.3.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-coffee-preprocessor": "1.0.1",
+    "karma-firefox-launcher": "1.0.0",
+    "karma-html2js-preprocessor": "1.1.0",
+    "karma-jasmine": "1.0.2",
+    "karma-phantomjs-launcher": "1.0.2",
+    "karma-requirejs": "1.1.0",
+    "karma-script-launcher": "1.0.0",
+    "matchdep": "1.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "grunt-ngdocs": "^0.2.10"
+  }
 }

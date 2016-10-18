@@ -22,7 +22,6 @@ Tired of using jquery for a stupid scrollbar? well, this directive is just for y
   ```html
   <script src="angular.js"></script>
   <script src="dist/ng-scrollbar.min.js"></script>
-  <link rel="stylesheet" href="dist/ng-scrollbar.min.css" >
   ```
 
 2. Set `ngScrollbar` as a dependency in your module
@@ -72,6 +71,24 @@ Or you can use "is-bar-shown" option. It should be read-only
   ```html
   <div class="scrollme" ng-scrollbar is-bar-shown="flag" > .... </div>
   <div> Bar shown: {{flag}} </div>
+  ```
+
+## Themes
+At the moment NgScrollbar provides only two themes: 
+  * *default*: the theme provided with NgScrollbar till _0.0.8_;
+  * *mac*: a MacOSX like theme.
+
+You can see both in the example page and you can implement them this way:
+  ```html
+  <div class="scrollme" ng-scrollbar theme="default"> .... </div>
+  <div class="scrollme" ng-scrollbar theme="mac"> .... </div>
+  ```
+
+## Path
+From version *0.0.9* on, NgScrollbar uses a "path" option you can use to set where you store the *.css files.
+This avoids you to change the ```<link>``` tag, in case you want to change theme. The "path" variable defaults to _../dist_ for dev purpose, but it's probably more useful if you set it this way:
+  ```html
+  <div class="scrollme" ng-scrollbar theme="mac" path="../bower_components/ng-scrollbar/dist"> .... </div>
   ```
 
 ## Examples
