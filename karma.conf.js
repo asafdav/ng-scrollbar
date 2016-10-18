@@ -12,8 +12,8 @@ module.exports = function(config) {
             'bower_components/jquery/dist/jquery.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-mocks/angular-mocks.js',
-            'src/*.js',
-            'test/spec/*.js'
+            'src/ng-scrollbar.js',
+            'test/spec/controller.spec.js'
         ],
 
         // list of files to exclude
@@ -21,7 +21,7 @@ module.exports = function(config) {
 
         // test results reporter to use
         // possible values: dots || progress || growl
-        reporters: ['progress'],
+        reporters: ['dots'],
 
         frameworks: ['jasmine'],
 
@@ -39,7 +39,7 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
+        autoWatch: true,
 
         // Start these browsers, currently available:
         // - Chrome
@@ -49,7 +49,7 @@ module.exports = function(config) {
         // - Safari (only Mac)
         // - PhantomJS
         // - IE (only Windows)
-        browsers: ['Chrome'],
+        browsers: ['Chrome', 'PhantomJS'],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 5000,

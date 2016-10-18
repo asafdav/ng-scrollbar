@@ -95,11 +95,13 @@ module.exports = function(grunt) {
     less: {
       options: {
         // dumpLineNumbers: 'all',
+        compress: true,
         paths: ['<%= yo.src %>']
       },
       dist: {
         files: {
-          '<%= yo.dist %>/<%= yo.name %>.css': '<%= yo.src %>/<%= yo.name %>.less'
+          '<%= yo.dist %>/<%= yo.name %>.default.css': '<%= yo.src %>/<%= yo.name %>.default.less',
+          '<%= yo.dist %>/<%= yo.name %>.mac.css': '<%= yo.src %>/<%= yo.name %>.mac.less'
         }
       }
     },
@@ -176,8 +178,16 @@ module.exports = function(grunt) {
         src: '<%= concat.dist.dest %>',
         dest: '<%= yo.dist %>/<%= pkg.name %>.min.js'
       }
-    }
-  });
+    },
+    copy:{
+      dist: {
+          expand: true,
+          flatten: true,
+          src: '<%= yo.src %>/<%= yo.name %>.html',
+          dest: '<%= yo.dist %>/'
+        }
+      }
+    });
 
   grunt.registerTask('test', [
     'jshint',
@@ -186,6 +196,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'copy:dist',
     'less:dist',
     'cssmin:minify',
     'ngmin:dist',

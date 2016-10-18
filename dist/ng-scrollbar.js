@@ -1,5 +1,6 @@
 'use strict';
-angular.module('ngScrollbar', []).directive('ngScrollbar', [
+var app = angular.module('ngScrollbar', []);
+app.directive('ngScrollbar', [
   '$parse',
   '$window',
   function ($parse, $window) {
@@ -7,7 +8,13 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
       restrict: 'A',
       replace: true,
       transclude: true,
-      scope: { 'showYScrollbar': '=?isBarShown' },
+      scope: {
+        'showYScrollbar': '=?isBarShown',
+        'theme': '@?',
+        'path': '@?'
+      },
+      templateUrl: '../dist/ng-scrollbar.html',
+      controller: 'MainCtrl',
       link: function (scope, element, attrs) {
         var mainElm, transculdedContainer, tools, thumb, thumbLine, track;
         var flags = { bottom: attrs.hasOwnProperty('bottom') };
@@ -60,7 +67,7 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
           var wheelSpeed = 40;
           // Mousewheel speed normalization approach adopted from
           // http://stackoverflow.com/a/13650579/1427418
-          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n - 1;
+          var o = event, d = o.detail, w = o.wheelDelta, n = 225, n1 = n - 1, f;
           // Normalize delta
           d = d ? w && (f = w / d) ? d / f : -d / 1.35 : w / 120;
           // Quadratic scale if |d| > 1
@@ -206,8 +213,62 @@ angular.module('ngScrollbar', []).directive('ngScrollbar', [
         if (attrs.hasOwnProperty('rebuildOnResize')) {
           win.on('resize', rebuild);
         }
-      },
-      template: '<div>' + '<div class="ngsb-wrap">' + '<div class="ngsb-container" ng-transclude></div>' + '<div class="ngsb-scrollbar" style="position: absolute; display: block;" ng-show="showYScrollbar">' + '<div class="ngsb-thumb-container">' + '<div class="ngsb-thumb-pos" oncontextmenu="return false;">' + '<div class="ngsb-thumb" ></div>' + '</div>' + '<div class="ngsb-track"></div>' + '</div>' + '</div>' + '</div>' + '</div>'
+      }
     };
   }
+]);
+app.controller('MainCtrl', [
+  '$scope',
+  '$document',
+  'THEMES',
+  function ($scope, $document, THEMES) {
+    /**
+    *   Is the theme provided valid?
+    *   @param {string} theme
+    */
+    function isValidTheme(theme) {
+      return !!theme ? THEMES.indexOf(theme) > -1 : false;
+    }
+    /**
+    *   Append correct stylesheet to the head
+    */
+    function appendStyleSheet(path) {
+      var head = $document.find('head')[0];
+      angular.element(head).append('<link href="' + path + 'dist/ng-scrollbar.min.css" rel="stylesheet"></link>');
+    }
+    /**
+    *   Sets the default theme in case of wrong named themes
+    *   @param {string} theme
+    */
+    function chooseTheme(theme) {
+      if (!isValidTheme(theme))
+        $scope.theme = 'default';
+      else
+        $scope.theme = theme;
+    }
+    function choosePath(path) {
+      if (!path)
+        $scope.path = '../';
+      else if (!/\/$|\\$/.test(path))
+        $scope.path = path + '/';
+      else
+        $scope.path = path;
+    }
+    /**
+    *   Controller startup
+    */
+    chooseTheme($scope.theme);
+    choosePath($scope.path);
+    appendStyleSheet($scope.path);
+    /**
+    *   Attached to $scope to run tests
+    */
+    $scope.chooseTheme = chooseTheme;
+    $scope.choosePath = choosePath;
+    $scope.appendStyleSheet = appendStyleSheet;
+  }
+]);
+app.constant('THEMES', [
+  'default',
+  'mac'
 ]);
