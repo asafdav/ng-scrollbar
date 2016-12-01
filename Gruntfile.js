@@ -99,7 +99,8 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          '<%= yo.dist %>/<%= yo.name %>.css': '<%= yo.src %>/<%= yo.name %>.less'
+          '<%= yo.dist %>/<%= yo.name %>.css': '<%= yo.src %>/<%= yo.name %>.less',
+          '<%= yo.dist %>/<%= yo.name %>.rtl.css': '<%= yo.src %>/<%= yo.name %>.rtl.less'
         }
       }
     },
@@ -107,9 +108,16 @@ module.exports = function(grunt) {
       minify: {
         expand: true,
         cwd: '<%= yo.dist %>',
-        src: ['*.css', '!*.min.css'],
+        src: ['*.css', '!*.rtl.css', '!*.rtl.min.css', '!*.min.css'],
         dest: '<%= yo.dist %>',
         ext: '.min.css'
+      },
+      minifyRtl: {
+        expand: true,
+        cwd: '<%= yo.dist %>',
+        src: ['*.rtl.css', '!*.rtl.min.css', '!*.min.css'],
+        dest: '<%= yo.dist %>',
+        ext: '.rtl.min.css'
       }
     },
     jshint: {
@@ -188,6 +196,7 @@ module.exports = function(grunt) {
     'clean:dist',
     'less:dist',
     'cssmin:minify',
+    'cssmin:minifyRtl',
     'ngmin:dist',
     'uglify:dist'
   ]);
